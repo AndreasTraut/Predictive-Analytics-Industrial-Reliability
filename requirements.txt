@@ -1,6 +1,14 @@
+# Data Manipulation
 pandas
 sqlalchemy
+
+# Machine Learning
 scikit-learn
 xgboost
+
+# Visualization
 matplotlib
 seaborn
+
+# For data versioning and pipeline management
+dvc

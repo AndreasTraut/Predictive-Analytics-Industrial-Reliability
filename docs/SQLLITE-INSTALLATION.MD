@@ -32,7 +32,7 @@ SQLite is a lightweight, serverless, self-contained SQL database engine. It stor
 
 SQLite is **already included** in Python's standard library (since Python 2.5). No additional installation is required!
 
-*SQLite ist **bereits enthalten** in der Python-Standardbibliothek (seit Python 2.5). Keine zusätzliche Installation erforderlich!*
+*SQLite ist **bereits enthalten** in der Python-Standardbibliothek (seit Python 2.5). Keine zusätzliche Installation erforderlich!* 
 
 ```python
 import sqlite3

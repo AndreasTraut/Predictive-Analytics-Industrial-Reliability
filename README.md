@@ -18,14 +18,16 @@ The project includes a complete machine learning pipeline:
 *- Modell-Evaluation und Leistungsanalyse*
 *- Speicherung der Vorhersagen in einer SQLite-Datenbank*
 
-# 👨‍💻 About the Authors / Über die Autoren
+## 👨‍💻 About the Authors / Über die Autoren
 
-Swarada Kulkarni is an AI & Analytics Professional and expert on LLM Integrations. She is working with Power BI, Python. 
+Swarada Kulkarni is an AI & Analytics Professional and expert on LLM Integrations. She is working with Power BI and Python.   
+*Swarada Kulkarni ist Expertin für KI und Analytik und Spezialistin für LLM-Integrationen. Sie arbeitet mit Power BI und Python.*
 
 🔗 [Connect on LinkedIn / Vernetze dich auf LinkedIn](https://www.linkedin.com/in/swarada-kulkarni-9ab9571a0/)  
 🔗 [Have a look at more examples / Schaue dir weitere, interessante BI Umsetzungen an](https://github.com/swarada431)
 
-Andreas Traut ist ein Senior BI-Entwickler, der sich auf Data Warehousing, SQL Server und Microsoft BI Stack spezialisiert hat. 
+Andreas Traut is a senior BI developer specializing in data warehousing, SQL Server, and Microsoft BI Stack.   
+*Andreas Traut ist ein Senior BI-Entwickler, der sich auf Data Warehousing, SQL Server und Microsoft BI Stack spezialisiert hat.* 
 
 🔗 [Connect on LinkedIn / Vernetze dich auf LinkedIn](https://www.linkedin.com/in/andreas-traut-89340/)  
 🔗 [Have a look at more examples / Schaue dir weitere, interessante BI Umsetzungen an](https://github.com/AndreasTraut)
@@ -72,7 +74,7 @@ Since the full dataset is over 1 GB, predictions are stored in a SQLite database
 
 *Da der vollständige Datensatz über 1 GB groß ist, werden die Vorhersagen in einer SQLite-Datenbank (`flights2024.db`) gespeichert. Dies optimiert die Performance bei Abfragen und ermöglicht effizientes Datenmanagement.*
 
-> 📖 **Installation Guide:** [SQLite Installation and Usage](docs/sqlite-installation.md)
+> 📖 **Installation Guide:** [SQLite Installation and Usage](docs/SQLLITE-INSTALLATION.MD)
 
 ## 📂 Project Structure / Projektstruktur
 
