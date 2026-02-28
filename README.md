@@ -4,7 +4,17 @@ This project uses machine learning to predict flight delays based on 2024 U.S. f
 
 *Dieses Projekt nutzt Machine Learning zur Vorhersage von Flugverspätungen auf Basis von US-Flugdaten aus dem Jahr 2024.*
 
-## 📋 Project Overview / Projektübersicht
+## 🔭 Project Overview: The Science of Availability
+
+This repository demonstrates how data science can be used to predict and prevent disruptions in complex systems. Whether it's a plane delayed on the tarmac or a crane failing on a construction site, the mathematical approach remains the same:
+
+* **Aviation Logistics:** Predicting delays using historical flight data.
+* **Root Cause Analysis (RCA):** Identifying why a mechanical system (crane) failed.
+* **Predictive Maintenance (PdM):** Estimating when a component needs service before it breaks.
+
+---
+
+## 📋 Pipeline Overview / Pipeline-Übersicht
 
 The project includes a complete machine learning pipeline:
 - Data preprocessing and feature engineering
