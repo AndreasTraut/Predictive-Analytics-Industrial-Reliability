@@ -12,13 +12,11 @@ Both use cases demonstrate how the same data science methodologies—feature eng
 
 *Dieses Projekt demonstriert die universelle Anwendbarkeit prädiktiver Analytik über verschiedene Branchen hinweg. Es präsentiert zwei vollständige Machine Learning Pipelines:*
 
-<<<<<<< HEAD
 **✈️ Flugverspätungs-Vorhersage:** Basierend auf historischen US-Flugdaten von 2024 sagt ein XGBoost-Klassifikator Ankunftsverspätungen mit 93% Genauigkeit voraus. Das Modell analysiert Muster in der Carrier-Performance, Routen und betrieblichen Kennzahlen, um Flüge zu identifizieren, die ein Verspätungsrisiko von über 15 Minuten aufweisen.*
 
 **🏗️ Kran Predictive Maintenance & Ursachenanalyse:** Ein synthetischer Datensatz simuliert Sensormesswerte von industriellen Kran-Hubwerken. Die Pipeline kombiniert XGBoost-Klassifikation zur Fehlerdiagnose (`Normal`, `Motor_Overheat`, `Bearing_Issue`) mit linearer Regression zur Vorhersage des Bremsbelag-Austauschzeitpunkts und verhindert so ungeplante Anlagenausfälle.*
 
 *Beide Anwendungsfälle zeigen, wie dieselben Data Science Methoden – Feature Engineering, überwachtes Lernen und Performance-Optimierung – Störungen in komplexen operativen Systemen vorhersagen und verhindern können.*
-=======
 The project includes two complete machine learning pipelines:
 
 **✈️ Flight Delay Detection**
@@ -46,7 +44,6 @@ The project includes two complete machine learning pipelines:
 *- Predictive Maintenance: Lineare Regression zur Vorhersage des Bremsbelag-Austauschs*
 
 ## 👨‍💻 About the Authors / Über die Autoren
->>>>>>> bd6278e (Add crane predictive maintenance dataset, generator script, analysis notebook and README updates)
 
 ### 👨‍💻 Authors / Autoren
 
