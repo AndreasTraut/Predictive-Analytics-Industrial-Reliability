@@ -4,6 +4,40 @@ This file defines the project-specific rules for creating and maintaining docume
 
 *Diese Datei definiert die projektspezifischen Regeln für das **Flight Delay Detection**-Projekt. Ziel ist die Vorhersage von US-Flugverspätungen (Daten 2024) mit einem XGBoost-Klassifikator.*
 
+## 📚 Documentation Language Policy / Dokumentationssprachen-Richtlinie
+
+### Separate Language Files / Getrennte Sprachdateien
+
+This repository maintains **separate documentation files** for German and English:
+
+*Dieses Repository verwendet **separate Dokumentationsdateien** für Deutsch und Englisch:*
+
+- **README.md** — Complete German documentation / Vollständige deutsche Dokumentation
+- **README_EN.md** — Complete English documentation / Vollständige englische Dokumentation
+
+### Documentation Rules / Dokumentationsregeln
+
+1. **No Bilingual Mixing:** Each file contains **only one language**. Do not mix German and English in the same file.
+   *Kein zweisprachiges Mischen: Jede Datei enthält **nur eine Sprache**. Deutsch und Englisch nicht in derselben Datei mischen.*
+
+2. **Cross-Reference:** Both files should reference each other at the top:
+   ```markdown
+   # README.md (German)
+   > **English version:** [README_EN.md](README_EN.md)
+   
+   # README_EN.md (English)
+   > **Deutsche Version:** [README.md](README.md)
+   ```
+
+3. **Content Parity:** Both files should contain the same information, just in different languages.
+   *Inhaltsparität: Beide Dateien sollten dieselben Informationen enthalten, nur in verschiedenen Sprachen.*
+
+4. **Primary Language:** German is the primary language (README.md). English is the secondary language (README_EN.md).
+   *Primärsprache: Deutsch ist die Primärsprache (README.md). Englisch ist die Sekundärsprache (README_EN.md).*
+
+5. **Update Both Files:** When making changes, update **both** README.md and README_EN.md to keep them synchronized.
+   *Beide Dateien aktualisieren: Bei Änderungen **beide** README.md und README_EN.md aktualisieren, um sie synchron zu halten.*
+
 ## 📁 File Naming and Location
 
 ### Project Structure / Projektstruktur
@@ -20,15 +54,19 @@ Predictive-Analytics-Industrial-Reliability/
 │   └── COPILOT_INSTRUCTIONS.md            # These guidelines / Diese Richtlinien
 ├── .gitignore
 ├── LICENSE
-├── README.md
+├── README.md                                # German documentation / Deutsche Dokumentation
+├── README_EN.md                             # English documentation / Englische Dokumentation
 └── requirements.txt
 ```
 
 ### Documentation Files
 
-* **Main Documentation:** `README.md` in the repository root.
-  * Contains project overview, installation, and quick start.
-  * Maximum of one `README.md` per repository.
+* **Main Documentation (German):** `README.md` in the repository root.
+  * Contains project overview, installation, and quick start in German.
+  * Cross-references English version: `README_EN.md`
+* **Main Documentation (English):** `README_EN.md` in the repository root.
+  * Contains project overview, installation, and quick start in English.
+  * Cross-references German version: `README.md`
 * **Changelog:** `CHANGELOG.md` in the repository root.
   * Documents all version changes, migrations, and updates.
   * Format: Markdown with clear versioning.
@@ -45,7 +83,10 @@ Predictive-Analytics-Industrial-Reliability/
 
 ### Naming Conventions
 
-* **Markdown Files:** ALL_CAPS for `README.md` and `CHANGELOG.md`.
+* **Markdown Files:** 
+  * `README.md` for German documentation
+  * `README_EN.md` for English documentation
+  * `CHANGELOG.md` in ALL_CAPS
 * **Python Modules / Notebooks:** snake_case (e.g., `flight_delay_prediction_analytics.ipynb`).
 * **Directories:** lowercase with underscores or hyphens.
 * **Assets/Data:** Descriptive names with underscores and year suffix (e.g., `flight_data_2024.csv`).
@@ -53,13 +94,17 @@ Predictive-Analytics-Industrial-Reliability/
 
 ## 📋 Markdown Structure
 
-### Language & Bilingual Support
-Always follow this structure for documentation in this repository:
-1. **English version first.**
-2. **German version second**, formatted in italics (*...*).
-3. **Headers** should be in the format 'English Title / German Title'.
+### Language Policy
 
-### README.md Requirements
+**IMPORTANT:** This repository uses **separate files** for German and English documentation:
+- `README.md` = German only / Nur Deutsch
+- `README_EN.md` = English only / Nur Englisch
+
+Do **not** mix languages in the same file. Each file should be written entirely in one language.
+
+*Keine Sprachen in derselben Datei mischen. Jede Datei sollte vollständig in einer Sprache geschrieben sein.*
+
+### README.md Requirements (applies to both German and English versions)
 
 * **H1 Title** with Project Name and Version.
 * **Introductory Paragraph** (Purpose and Value Proposition).
@@ -162,11 +207,12 @@ def process_data(input_path: str) -> bool:
 When generating or editing files:
 
 * ✅ Stick to the established folder structure (`data/`, `docs/`, `notebooks/`).
-* ✅ Follow naming conventions (`README.md`, snake_case notebooks/scripts).
+* ✅ Follow naming conventions (`README.md` = German, `README_EN.md` = English, snake_case notebooks/scripts).
 * ✅ Use thematic emojis for scannability.
 * ✅ Include detailed comments in code blocks.
 * ✅ Use metadata blockquotes for file references.
-* ✅ Always prioritize bilingual support (English first, German italics second).
+* ✅ **IMPORTANT:** Maintain separate language files — `README.md` (German only) and `README_EN.md` (English only). Do NOT mix languages in the same file.
+* ✅ When updating documentation, update BOTH `README.md` and `README_EN.md` to keep them synchronized.
 * ✅ Always prioritize clarity for the end-user.
 * ✅ Use the defined tech stack (XGBoost, Scikit-learn, Pandas, SQLAlchemy, DVC) — do not suggest alternatives.
 * ✅ Follow the ML pipeline order: Data Preparation → Preprocessing → Training → Predictions.
