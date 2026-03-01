@@ -1,4 +1,4 @@
-# ✈️ Flight Delay Detection v1.0 / Flugverspätungs-Erkennung v1.0
+# 🏭 Predictive Analytics for Industrial Reliability v1.0 / Prädiktive Analytik für industrielle Zuverlässigkeit v1.0
 
 This project uses machine learning to predict flight delays based on 2024 U.S. flight data. It demonstrates how data science can predict and prevent disruptions in complex systems using an XGBoost classifier.
 
