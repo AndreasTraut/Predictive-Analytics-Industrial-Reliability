@@ -1,12 +1,68 @@
 # 🏭 Predictive Analytics for Industrial Reliability v1.0 / Prädiktive Analytik für industrielle Zuverlässigkeit v1.0
 
-This project uses machine learning to predict flight delays based on 2024 U.S. flight data. It demonstrates how data science can predict and prevent disruptions in complex systems using an XGBoost classifier.
+This project demonstrates the universal applicability of predictive analytics across diverse industries. It showcases two complete machine learning pipelines:
 
-*Dieses Projekt nutzt Machine Learning zur Vorhersage von Flugverspätungen auf Basis von US-Flugdaten aus dem Jahr 2024. Es zeigt, wie Data Science genutzt werden kann, um Störungen in komplexen Systemen vorherzusagen und zu verhindern – mithilfe eines XGBoost-Klassifikators.*
+**✈️ Flight Delay Prediction:** Using historical U.S. flight data from 2024, an XGBoost classifier predicts arrival delays with 93% accuracy. The model analyzes patterns in carrier performance, routes, and operational metrics to identify flights at risk of delays greater than 15 minutes.
 
-> ➡️ **Authors / Autoren:** Andreas Traut & Swarada Kulkarni  
-> 📅 **Date / Datum:** 2026-02-28  
-> 🏷️ **Version:** v1.0
+**🏗️ Crane Predictive Maintenance & Root Cause Analysis:** A synthetic dataset simulates sensor readings from industrial crane hoist systems. The pipeline combines XGBoost classification for fault diagnosis (`Normal`, `Motor_Overheat`, `Bearing_Issue`) with linear regression to forecast brake pad replacement timing, preventing unexpected equipment downtime.
+
+Both use cases demonstrate how the same data science methodologies—feature engineering, supervised learning, and performance optimization—can predict and prevent disruptions in complex operational systems.
+
+---
+
+*Dieses Projekt demonstriert die universelle Anwendbarkeit prädiktiver Analytik über verschiedene Branchen hinweg. Es präsentiert zwei vollständige Machine Learning Pipelines:*
+
+<<<<<<< HEAD
+**✈️ Flugverspätungs-Vorhersage:** Basierend auf historischen US-Flugdaten von 2024 sagt ein XGBoost-Klassifikator Ankunftsverspätungen mit 93% Genauigkeit voraus. Das Modell analysiert Muster in der Carrier-Performance, Routen und betrieblichen Kennzahlen, um Flüge zu identifizieren, die ein Verspätungsrisiko von über 15 Minuten aufweisen.*
+
+**🏗️ Kran Predictive Maintenance & Ursachenanalyse:** Ein synthetischer Datensatz simuliert Sensormesswerte von industriellen Kran-Hubwerken. Die Pipeline kombiniert XGBoost-Klassifikation zur Fehlerdiagnose (`Normal`, `Motor_Overheat`, `Bearing_Issue`) mit linearer Regression zur Vorhersage des Bremsbelag-Austauschzeitpunkts und verhindert so ungeplante Anlagenausfälle.*
+
+*Beide Anwendungsfälle zeigen, wie dieselben Data Science Methoden – Feature Engineering, überwachtes Lernen und Performance-Optimierung – Störungen in komplexen operativen Systemen vorhersagen und verhindern können.*
+=======
+The project includes two complete machine learning pipelines:
+
+**✈️ Flight Delay Detection**
+- Data preprocessing and feature engineering
+- Training an XGBoost classifier
+- Model evaluation and performance analysis
+- Storing predictions in a SQLite database
+
+**🏗️ Crane Predictive Maintenance & RCA**
+- Synthetic dataset generation (see `scripts/generate_crane_dataset.py`)
+- Root Cause Analysis: XGBoost fault classifier (`Normal` / `E102_Motor_Overheat` / `E505_Bearing_Issue`)
+- Predictive Maintenance: Linear regression forecast for brake pad replacement
+
+*Das Projekt enthält zwei vollständige Machine Learning Pipelines:*
+
+*✈️ Flugverspätungs-Erkennung*
+*- Datenvorverarbeitung und Feature Engineering*
+*- Training eines XGBoost Klassifikators*
+*- Modell-Evaluation und Leistungsanalyse*
+*- Speicherung der Vorhersagen in einer SQLite-Datenbank*
+
+*🏗️ Kran Predictive Maintenance & RCA*
+*- Synthetische Datensatzerzeugung (siehe `scripts/generate_crane_dataset.py`)*
+*- Root Cause Analysis: XGBoost-Fehlerklassifikator (`Normal` / `E102_Motor_Overheat` / `E505_Bearing_Issue`)*
+*- Predictive Maintenance: Lineare Regression zur Vorhersage des Bremsbelag-Austauschs*
+
+## 👨‍💻 About the Authors / Über die Autoren
+>>>>>>> bd6278e (Add crane predictive maintenance dataset, generator script, analysis notebook and README updates)
+
+### 👨‍💻 Authors / Autoren
+
+**Swarada Kulkarni** — AI & Analytics Professional, expert on LLM Integrations, Power BI and Python.  
+*Swarada Kulkarni ist Expertin für KI und Analytik und Spezialistin für LLM-Integrationen. Sie arbeitet mit Power BI und Python.*
+
+🔗 [Connect on LinkedIn / Vernetze dich auf LinkedIn](https://www.linkedin.com/in/swarada-kulkarni-9ab9571a0/)  
+🔗 [Have a look at more examples / Schaue dir weitere Beispiele an](https://github.com/swarada431)
+
+**Andreas Traut** — Senior BI developer specializing in data warehousing, SQL Server, and Microsoft BI Stack.  
+*Andreas Traut ist ein Senior BI-Entwickler, der sich auf Data Warehousing, SQL Server und Microsoft BI Stack spezialisiert hat.*
+
+🔗 [Connect on LinkedIn / Vernetze dich auf LinkedIn](https://www.linkedin.com/in/andreas-traut-89340/)  
+🔗 [Have a look at more examples / Schaue dir weitere Beispiele an](https://github.com/AndreasTraut)
+
+
 
 ---
 
@@ -44,19 +100,24 @@ This repository demonstrates how data science can be used to predict and prevent
 
 ```
 Predictive-Analytics-Industrial-Reliability/
-├── data/                                    # Datasets / Datensätze
-│   └── flight_data_2024.csv.dvc           # DVC-managed data / DVC-verwaltete Daten
-├── docs/                                    # Documentation / Dokumentation
-│   ├── flight_delay_insights_2024.png     # Visualizations / Visualisierungen
-│   └── SQLLITE-INSTALLATION.MD            # SQLite setup guide / SQLite-Einrichtungsanleitung
-├── notebooks/                               # Jupyter Notebooks
-│   └── flight_delay_prediction_analytics.ipynb  # Main analysis / Hauptanalyse
+├── data/                                          # Datasets / Datensätze
+│   ├── flight_data_2024.csv.dvc                 # DVC-managed data / DVC-verwaltete Daten
+│   └── kran_wartung_daten.csv                   # Synthetic crane dataset / Synthetischer Kran-Datensatz
+├── docs/                                          # Documentation / Dokumentation
+│   ├── flight_delay_insights_2024.png           # Flight visualizations / Flug-Visualisierungen
+│   ├── crane_maintenance_insights.png           # Crane visualizations / Kran-Visualisierungen
+│   └── SQLLITE-INSTALLATION.MD                  # SQLite setup guide / SQLite-Einrichtungsanleitung
+├── notebooks/                                     # Jupyter Notebooks
+│   ├── flight_delay_prediction_analytics.ipynb  # Flight delay analysis / Flugverspätungs-Analyse
+│   └── crane_maintenance_analytics.ipynb        # Crane PdM & RCA analysis / Kran PdM & RCA
+├── scripts/                                       # Standalone tools / Eigenständige Skripte
+│   └── generate_crane_dataset.py               # Crane dataset generator / Kran-Datensatz-Generator
 ├── .github/
-│   └── COPILOT_INSTRUCTIONS.md            # Copilot guidelines / Copilot-Richtlinien
-├── .gitignore                              # Git ignore rules / Git ignore Regeln
-├── LICENSE                                 # MIT License / MIT-Lizenz
-├── README.md                               # Project documentation / Projektdokumentation
-└── requirements.txt                        # Python dependencies / Python Abhängigkeiten
+│   └── COPILOT_INSTRUCTIONS.md                  # Copilot guidelines / Copilot-Richtlinien
+├── .gitignore                                     # Git ignore rules / Git ignore Regeln
+├── LICENSE                                        # MIT License / MIT-Lizenz
+├── README.md                                      # Project documentation / Projektdokumentation
+└── requirements.txt                               # Python dependencies / Python Abhängigkeiten
 ```
 
 ---
@@ -151,16 +212,94 @@ Since the full dataset is over 1 GB, predictions are stored in a SQLite database
 > 📖 **Installation Guide:** [SQLite Installation and Usage](docs/SQLLITE-INSTALLATION.MD)
 
 ---
+<<<<<<< HEAD
+
+### 🏗️ Crane Maintenance Dataset — Synthetic / Kran-Wartungsdatensatz — Synthetisch
+
+This project also includes a **synthetic crane drive dataset** generated with `scripts/generate_crane_dataset.py`. It simulates 1,000 hourly sensor readings from a bridge or tower crane hoist unit with injected fault patterns.
+
+*Dieses Projekt enthält außerdem einen **synthetischen Kran-Antriebsdatensatz**, der mit `scripts/generate_crane_dataset.py` erzeugt wird. Er simuliert 1.000 stündliche Sensormesswerte eines Brücken- oder Turmdrehkran-Hubwerks mit eingebetteten Fehlermustern.*
+
+> 📖 **Implementation:** [scripts/generate_crane_dataset.py](scripts/generate_crane_dataset.py)  
+> 📖 **Analysis Notebook:** [notebooks/crane_maintenance_analytics.ipynb](notebooks/crane_maintenance_analytics.ipynb)
+
+### 🔍 Crane Dataset Features / Kran-Datensatz Features
+
+| Feature | Description / Beschreibung | Relevance / Bedeutung |
+|---------|---------------------------|----------------------|
+| `Timestamp` | Hourly observation timestamp / Stündlicher Zeitstempel | Time axis for trend analysis / Zeitachse für Trendanalyse |
+| `Load_kg` | Current hook load / Aktuelle Last am Haken | Overload accelerates wear / Überlastung beschleunigt Verschleiß |
+| `Motor_Temp` | Hoist motor temperature (°C) / Motortemperatur (°C) | Systematic overheating shortens insulation life / Systematische Überhitzung verkürzt die Isolationslebensdauer |
+| `Vibration` | Vibration at hoist unit (mm/s) / Schwingung am Hubwerk (mm/s) | RCA: high values indicate bearing/gearbox fault / RCA: Hohe Werte deuten auf Lager-/Getriebedefekt hin |
+| `Brake_Wear` | Remaining brake pad thickness (mm) / Verbleibende Belagdicke (mm) | Direct wear measure / Direktes Verschleißmaß |
+| `Error_Code` | Fault label (target variable) / Fehlerbezeichnung (Zielvariable) | `Normal`, `E102_Motor_Overheat`, `E505_Bearing_Issue` |
+
+### 🚀 Regenerate the Dataset / Datensatz neu erzeugen
+
+```bash
+python scripts/generate_crane_dataset.py
+=======
+
+### 🏗️ Crane Maintenance Dataset — Synthetic / Kran-Wartungsdatensatz — Synthetisch
+
+This project also includes a **synthetic crane drive dataset** generated with `scripts/generate_crane_dataset.py`.  It simulates 1,000 hourly sensor readings from a bridge or tower crane hoist unit with injected fault patterns.
+
+*Dieses Projekt enthält außerdem einen **synthetischen Kran-Antriebsdatensatz**, der mit `scripts/generate_crane_dataset.py` erzeugt wird.  Er simuliert 1.000 stündliche Sensormesswerte eines Brücken- oder Turmdrehkran-Hubwerks mit eingebetteten Fehlermustern.*
+
+> 📖 **Implementation:** [`scripts/generate_crane_dataset.py`](scripts/generate_crane_dataset.py)  
+> 📖 **Analysis Notebook:** [`notebooks/crane_maintenance_analytics.ipynb`](notebooks/crane_maintenance_analytics.ipynb)
+
+### 🔍 Crane Dataset Features / Kran-Datensatz Features
+
+| Feature | Description / Beschreibung | Relevance / Bedeutung |
+|---------|---------------------------|----------------------|
+| `Timestamp` | Hourly observation timestamp / Stündlicher Zeitstempel | Time axis for trend analysis / Zeitachse für Trendanalyse |
+| `Load_kg` | Current hook load / Aktuelle Last am Haken | Overload accelerates wear / Überlastung beschleunigt Verschleiß |
+| `Motor_Temp` | Hoist motor temperature (°C) / Motortemperatur (°C) | Systematic overheating shortens insulation life / Systematische Überhitzung verkürzt die Isolationslebensdauer |
+| `Vibration` | Vibration at hoist unit (mm/s) / Schwingung am Hubwerk (mm/s) | RCA: high values indicate bearing/gearbox fault / RCA: Hohe Werte deuten auf Lager-/Getriebedefekt hin |
+| `Brake_Wear` | Remaining brake pad thickness (mm) / Verbleibende Belagdicke (mm) | Direct wear measure / Direktes Verschleißmaß |
+| `Error_Code` | Fault label (target variable) / Fehlerbezeichnung (Zielvariable) | `Normal`, `E102_Motor_Overheat`, `E505_Bearing_Issue` |
+
+### 🚀 Regenerate the Dataset / Datensatz neu erzeugen
+
+```bash
+python scripts/generate_crane_dataset.py
+```
+
+## 📂 Project Structure / Projektstruktur
+
+```
+Predictive-Analytics-Industrial-Reliability/
+├── data/                                          # Datasets / Datensätze
+│   ├── flight_data_2024.csv.dvc                 # DVC-managed data / DVC-verwaltete Daten
+│   └── kran_wartung_daten.csv                   # Synthetic crane dataset / Synthetischer Kran-Datensatz
+├── docs/                                          # Documentation / Dokumentation
+│   ├── flight_delay_insights_2024.png           # Flight visualizations / Flug-Visualisierungen
+│   └── crane_maintenance_insights.png           # Crane visualizations / Kran-Visualisierungen
+├── notebooks/                                     # Jupyter Notebooks
+│   ├── flight_delay_prediction_analytics.ipynb  # Flight delay analysis / Flugverspätungs-Analyse
+│   └── crane_maintenance_analytics.ipynb        # Crane PdM & RCA analysis / Kran PdM & RCA
+├── scripts/                                       # Standalone tools / Eigenständige Skripte
+│   └── generate_crane_dataset.py               # Crane dataset generator / Kran-Datensatz-Generator
+├── .gitignore                                     # Git ignore rules / Git ignore Regeln
+├── README.md                                      # Project documentation / Projektdokumentation
+└── requirements.txt                               # Python dependencies / Python Abhängigkeiten
+>>>>>>> bd6278e (Add crane predictive maintenance dataset, generator script, analysis notebook and README updates)
+```
+
+---
 
 ## 📚 Module and Feature Descriptions / Modul- und Funktionsbeschreibungen
 
-The project includes a complete machine learning pipeline:
+The project includes two complete machine learning pipelines:
 
-*Das Projekt beinhaltet eine vollständige Machine Learning Pipeline:*
+*Das Projekt beinhaltet zwei vollständige Machine Learning Pipelines:*
 
-### 1. Data Preparation / Datenaufbereitung
+### ✈️ Flight Delay Detection Pipeline / Flugverspätungs-Erkennungs-Pipeline
 
-> 📖 **Implementation:** [`notebooks/flight_delay_prediction_analytics.ipynb`](notebooks/flight_delay_prediction_analytics.ipynb)
+#### 1. Data Preparation / Datenaufbereitung
+
+> 📖 **Implementation:** [notebooks/flight_delay_prediction_analytics.ipynb](notebooks/flight_delay_prediction_analytics.ipynb)
 
 Loading flight data from `data/flight_data_2024.csv`  
 Creating target variable `Delayed` (1 if `arr_delay > 15`, otherwise 0)  
@@ -170,7 +309,7 @@ Storing in SQLite database `flights2024.db`
 *Erstellung der Zielvariable `Delayed` (1 wenn `arr_delay > 15`, sonst 0)*  
 *Speicherung in SQLite-Datenbank `flights2024.db`*
 
-### 2. Preprocessing / Vorverarbeitung
+#### 2. Preprocessing / Vorverarbeitung
 
 Filtering: Only non-cancelled and non-diverted flights  
 Label encoding for categorical variables (`op_unique_carrier`, `origin`, `dest`)  
@@ -182,20 +321,42 @@ Train/test split (80/20)
 *StandardScaler für numerische Features*  
 *Train/Test Split (80/20)*
 
-### 3. Model Training / Modell-Training
+#### 3. Model Training / Modell-Training
 
 **XGBoost Classifier Hyperparameter:**
 - `n_estimators=300`
 - `max_depth=6`
 - `learning_rate=0.05`
 
-### 4. Predictions / Vorhersagen
+#### 4. Predictions / Vorhersagen
 
 Prediction on full dataset  
 Storage in SQLite table `flight_preds_2024`
 
 *Vorhersage auf dem gesamten Datensatz*  
 *Speicherung in SQLite-Tabelle `flight_preds_2024`*
+
+### 🏗️ Crane Predictive Maintenance & RCA Pipeline / Kran Predictive Maintenance & RCA Pipeline
+
+> 📖 **Implementation:** [notebooks/crane_maintenance_analytics.ipynb](notebooks/crane_maintenance_analytics.ipynb)
+
+#### 1. Synthetic Dataset Generation / Synthetische Datensatzerzeugung
+
+- Generating 1,000 hourly sensor readings / Erzeugung von 1.000 stündlichen Sensormesswerten
+- Injecting fault patterns (`Normal`, `E102_Motor_Overheat`, `E505_Bearing_Issue`) / Einbettung von Fehlermustern
+- Features: `Load_kg`, `Motor_Temp`, `Vibration`, `Brake_Wear` / Features: Last, Motortemperatur, Vibration, Bremsbelag-Verschleiß
+
+#### 2. Root Cause Analysis (RCA) / Ursachenanalyse
+
+**XGBoost Fault Classifier:**
+- Classifying error codes based on sensor patterns / Klassifizierung von Fehlercodes basierend auf Sensormustern
+- Identifying whether faults are due to motor overheating or bearing issues / Ermittlung, ob Fehler auf Motorüberhitzung oder Lagerprobleme zurückzuführen sind
+
+#### 3. Predictive Maintenance (PdM) / Vorhersagende Wartung
+
+**Linear Regression Forecast:**
+- Predicting brake pad replacement timing / Vorhersage des Zeitpunkts für Bremsbelag-Austausch
+- Preventing unexpected downtime / Vermeidung ungeplanter Ausfallzeiten
 
 ---
 
@@ -266,17 +427,3 @@ This project is licensed under the MIT License.
 *Dieses Projekt steht unter der MIT-Lizenz.*
 
 > 📖 **License:** [`LICENSE`](LICENSE)
-
-### 👨‍💻 Authors / Autoren
-
-**Swarada Kulkarni** — AI & Analytics Professional, expert on LLM Integrations, Power BI and Python.  
-*Swarada Kulkarni ist Expertin für KI und Analytik und Spezialistin für LLM-Integrationen. Sie arbeitet mit Power BI und Python.*
-
-🔗 [Connect on LinkedIn / Vernetze dich auf LinkedIn](https://www.linkedin.com/in/swarada-kulkarni-9ab9571a0/)  
-🔗 [Have a look at more examples / Schaue dir weitere Beispiele an](https://github.com/swarada431)
-
-**Andreas Traut** — Senior BI developer specializing in data warehousing, SQL Server, and Microsoft BI Stack.  
-*Andreas Traut ist ein Senior BI-Entwickler, der sich auf Data Warehousing, SQL Server und Microsoft BI Stack spezialisiert hat.*
-
-🔗 [Connect on LinkedIn / Vernetze dich auf LinkedIn](https://www.linkedin.com/in/andreas-traut-89340/)  
-🔗 [Have a look at more examples / Schaue dir weitere Beispiele an](https://github.com/AndreasTraut)
