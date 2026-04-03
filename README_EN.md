@@ -4,7 +4,7 @@ This project demonstrates the universal applicability of predictive analytics ac
 
 **✈️ Flight Delay Prediction:** Using historical U.S. flight data from 2024, an XGBoost classifier predicts arrival delays with 93% accuracy. The model analyzes patterns in carrier performance, routes, and operational metrics to identify flights at risk of delays greater than 15 minutes.
 
-**🏗️ Crane Predictive Maintenance & Root Cause Analysis:** A synthetic dataset simulates sensor readings from industrial crane hoist systems. The pipeline combines XGBoost classification for fault diagnosis (`Normal`, `Motor_Overheat`, `Bearing_Issue`) with linear regression to forecast brake pad replacement timing, preventing unexpected equipment downtime.
+**🏗️ Crane Predictive Maintenance & Root Cause Analysis:** A synthetic dataset simulates sensor readings from industrial crane hoist systems. The pipeline combines XGBoost classification for fault diagnosis (`Normal`, `Motor_Overheat`, `Bearing_Issue`) with linear regression to forecast brake pad replacement timing, preventing unexpected equipment downtime. The enhanced notebook [`crane_pdm_enhanced_v2.ipynb`](notebooks/crane_pdm_enhanced_v2.ipynb) extends this baseline pipeline with four improvements: rolling feature engineering, Bayesian hyperparameter optimisation with Optuna, detailed evaluation visuals, and model serialisation — all framed within the **Liebherr LiDAT** telematics system.
 
 Both use cases demonstrate how the same data science methodologies—feature engineering, supervised learning, and performance optimization—can predict and prevent disruptions in complex operational systems.
 
@@ -62,7 +62,8 @@ Predictive-Analytics-Industrial-Reliability/
 │   └── SQLLITE-INSTALLATION.MD                  # SQLite setup guide
 ├── notebooks/                                     # Jupyter Notebooks
 │   ├── flight_delay_prediction_analytics.ipynb  # Flight delay analysis
-│   └── crane_maintenance_analytics.ipynb        # Crane PdM & RCA analysis
+│   ├── crane_maintenance_analytics.ipynb        # Crane PdM & RCA (baseline)
+│   └── crane_pdm_enhanced_v2.ipynb              # Crane PdM & RCA (enhanced, LiDAT framing)
 ├── scripts/                                       # Standalone tools
 │   └── generate_crane_dataset.py               # Crane dataset generator
 ├── .github/
@@ -113,6 +114,7 @@ Predictive-Analytics-Industrial-Reliability/
 | **Scikit-learn** | latest | Preprocessing and metrics |
 | **XGBoost** | latest | ML classifier (`n_estimators=300`, `max_depth=6`, `learning_rate=0.05`) |
 | **SQLAlchemy** | latest | Database integration (`flights2024.db`) |
+| **Optuna** | latest | Bayesian hyperparameter optimisation (TPE) |
 | **Matplotlib & Seaborn** | latest | Visualization |
 | **DVC** | latest | Data version control |
 
@@ -162,18 +164,19 @@ Since the full dataset is over 1 GB, predictions are stored in a SQLite database
 This project also includes a **synthetic crane drive dataset** generated with `scripts/generate_crane_dataset.py`. It simulates 1,000 hourly sensor readings from a bridge or tower crane hoist unit with injected fault patterns.
 
 > 📖 **Implementation:** [`scripts/generate_crane_dataset.py`](scripts/generate_crane_dataset.py)  
-> 📖 **Analysis Notebook:** [`notebooks/crane_maintenance_analytics.ipynb`](notebooks/crane_maintenance_analytics.ipynb)
+> 📖 **Analysis Notebook (baseline):** [`notebooks/crane_maintenance_analytics.ipynb`](notebooks/crane_maintenance_analytics.ipynb)  
+> 📖 **Analysis Notebook (enhanced):** [`notebooks/crane_pdm_enhanced_v2.ipynb`](notebooks/crane_pdm_enhanced_v2.ipynb)
 
 ### 🔍 Crane Dataset Features
 
-| Feature | Description | Relevance |
-|---------|-------------|-----------|
-| `Timestamp` | Hourly observation timestamp | Time axis for trend analysis |
-| `Load_kg` | Current hook load | Overload accelerates wear |
-| `Motor_Temp` | Hoist motor temperature (°C) | Systematic overheating shortens insulation life |
-| `Vibration` | Vibration at hoist unit (mm/s) | RCA: high values indicate bearing/gearbox fault |
-| `Brake_Wear` | Remaining brake pad thickness (mm) | Direct wear measure |
-| `Error_Code` | Fault label (target variable) | `Normal`, `E102_Motor_Overheat`, `E505_Bearing_Issue` |
+| Feature | Description | LiDAT Concept | Relevance |
+|---------|-------------|---------------|-----------|
+| `Timestamp` | Hourly observation timestamp | Operating Hours (Bh) | Time axis for trend analysis (PdM) |
+| `Load_kg` | Current hook load | Safety Reports | Overload accelerates wear (RCA) |
+| `Motor_Temp` | Hoist motor temperature (°C) | Sensor Notifications | Systematic overheating shortens insulation life (RCA) |
+| `Vibration` | Vibration at hoist unit (mm/s) | Sensor Notifications | RCA: high values indicate bearing/gearbox fault |
+| `Brake_Wear` | Remaining brake pad thickness (mm) | Usage Trends | Direct wear measure (PdM) |
+| `Error_Code` | Fault label (target variable) | Teleservice fault log | `Normal`, `E102_Motor_Overheat`, `E505_Bearing_Issue` |
 
 ### 🚀 Regenerate the Dataset
 
@@ -197,6 +200,15 @@ The project includes two complete machine learning pipelines:
 - Synthetic dataset generation (see `scripts/generate_crane_dataset.py`)
 - Root Cause Analysis: XGBoost fault classifier (`Normal` / `E102_Motor_Overheat` / `E505_Bearing_Issue`)
 - Predictive Maintenance: Linear regression forecast for brake pad replacement
+
+**🏗️ Crane PdM & RCA — Enhanced Pipeline (LiDAT Framing)**
+- Fully self-contained notebook with 2,000 synthetic sensor readings
+- Framed around the **Liebherr LiDAT** telematics system (Safety Reports, Sensor Notifications, Teleservice, Operating Hours, Usage Trends)
+- Rolling feature engineering: 12-h and 24-h sliding-window statistics (mean, std, min, max) per sensor
+- Bayesian hyperparameter optimisation with **Optuna** (Tree-structured Parzen Estimator, TPE)
+- Chronological 80/20 split (no shuffling) for time-series-compliant evaluation
+- Comprehensive evaluation visuals: normalised confusion matrix, per-class F1 bar chart, One-vs-Rest ROC curves, feature importance plots
+- Model serialisation via `joblib`: full inference bundle (scaler + classifier + label encoder)
 
 ---
 
@@ -231,25 +243,46 @@ Storage in SQLite table `flight_preds_2024`
 
 ### 🏗️ Crane Predictive Maintenance & RCA Pipeline
 
-> 📖 **Implementation:** [notebooks/crane_maintenance_analytics.ipynb](notebooks/crane_maintenance_analytics.ipynb)
+> 📖 **Implementation (baseline):** [notebooks/crane_maintenance_analytics.ipynb](notebooks/crane_maintenance_analytics.ipynb)  
+> 📖 **Implementation (enhanced):** [notebooks/crane_pdm_enhanced_v2.ipynb](notebooks/crane_pdm_enhanced_v2.ipynb)
 
 #### 1. Synthetic Dataset Generation
 
-- Generating 1,000 hourly sensor readings
+- Generating 1,000 hourly sensor readings (2,000 in the enhanced notebook)
 - Injecting fault patterns (`Normal`, `E102_Motor_Overheat`, `E505_Bearing_Issue`)
 - Features: `Load_kg`, `Motor_Temp`, `Vibration`, `Brake_Wear`
 
-#### 2. Root Cause Analysis (RCA)
+#### 2. Root Cause Analysis — Story A (RCA)
+
+**LiDAT equivalent:** Safety Reports + Sensor Notifications + Teleservice remote diagnosis.
 
 **XGBoost Fault Classifier:**
 - Classifying error codes based on sensor patterns
 - Identifying whether faults are due to motor overheating or bearing issues
 
-#### 3. Predictive Maintenance (PdM)
+**Highlights of the enhanced notebook:**
+
+| # | Module | Description |
+|---|--------|-------------|
+| 1 | **Rolling feature engineering** | 12-h and 24-h sliding windows (mean, std, min, max) capture temporal degradation signals before a fault |
+| 2 | **Hyperparameter tuning with Optuna** | Bayesian search (TPE) over `n_estimators`, `max_depth`, `learning_rate`, `subsample`, `colsample_bytree`, `min_child_weight` |
+| 3 | **Chronological split** | 80/20 split without shuffling — respects the time-series nature of the data |
+| 4 | **Evaluation visuals** | Normalised confusion matrix, per-class F1 bar chart, One-vs-Rest ROC curves, Top-20 feature importances |
+
+#### 3. Predictive Maintenance — Story B (PdM)
+
+**LiDAT equivalent:** Operating Hours (Bh) tracking + Usage Trends + Availability planning.
 
 **Linear Regression Forecast:**
-- Predicting brake pad replacement timing
+- Predicting brake pad replacement timing (crossing the critical threshold of 1.0 mm)
 - Preventing unexpected downtime
+
+#### 4. Model Serialisation
+
+Saved artefacts (enhanced pipeline):
+- `outputs/crane_rca_pipeline.joblib` — full RCA inference bundle (scaler + classifier + label encoder)
+- `outputs/crane_pdm_regression.joblib` — PdM linear regression model
+- `outputs/feature_cols.txt` — ordered feature list for column alignment
 
 ---
 
@@ -306,6 +339,11 @@ Storage in SQLite table `flight_preds_2024`
 - [ ] Feature engineering with weather and airport congestion data
 - [ ] Deployment as Flask API or Streamlit dashboard
 - [ ] Integration of additional data sources
+- [ ] **SHAP** — add `shap.TreeExplainer` for per-prediction explanations on the RCA model
+- [ ] **Drift detection** — monitor rolling feature distributions in production with `evidently`
+- [ ] **MLflow** — replace `joblib` bundles with `mlflow.xgboost.log_model` for experiment versioning
+- [ ] **Non-linear PdM** — replace linear regression with an exponential or polynomial decay model for more realistic brake wear curves
+- [ ] **Load-weighted degradation** — weight brake wear rate by `Load_kg` per cycle, not just time
 
 ---
 

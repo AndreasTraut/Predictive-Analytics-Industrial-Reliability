@@ -6,7 +6,7 @@ Dieses Projekt demonstriert die universelle Anwendbarkeit prädiktiver Analytik 
 
 **✈️ Flugverspätungs-Vorhersage:** Basierend auf historischen US-Flugdaten von 2024 sagt ein XGBoost-Klassifikator Ankunftsverspätungen mit 93% Genauigkeit voraus. Das Modell analysiert Muster in der Carrier-Performance, Routen und betrieblichen Kennzahlen, um Flüge zu identifizieren, die ein Verspätungsrisiko von über 15 Minuten aufweisen.
 
-**🏗️ Kran Predictive Maintenance & Ursachenanalyse:** Ein synthetischer Datensatz simuliert Sensormesswerte von industriellen Kran-Hubwerken. Die Pipeline kombiniert XGBoost-Klassifikation zur Fehlerdiagnose (`Normal`, `Motor_Overheat`, `Bearing_Issue`) mit linearer Regression zur Vorhersage des Bremsbelag-Austauschzeitpunkts und verhindert so ungeplante Anlagenausfälle.
+**🏗️ Kran Predictive Maintenance & Ursachenanalyse:** Ein synthetischer Datensatz simuliert Sensormesswerte von industriellen Kran-Hubwerken. Die Pipeline kombiniert XGBoost-Klassifikation zur Fehlerdiagnose (`Normal`, `Motor_Overheat`, `Bearing_Issue`) mit linearer Regression zur Vorhersage des Bremsbelag-Austauschzeitpunkts und verhindert so ungeplante Anlagenausfälle. Das erweiterte Notebook [`crane_pdm_enhanced_v2.ipynb`](notebooks/crane_pdm_enhanced_v2.ipynb) ergänzt diese Basis-Pipeline um vier Verbesserungen: Rolling-Feature-Engineering, Bayesianische Hyperparameter-Optimierung mit Optuna, detaillierte Evaluierungsvisualisierungen und Modell-Serialisierung — eingebettet in das **Liebherr LiDAT** Telematik-Framework.
 
 Beide Anwendungsfälle zeigen, wie dieselben Data Science Methoden – Feature Engineering, überwachtes Lernen und Performance-Optimierung – Störungen in komplexen operativen Systemen vorhersagen und verhindern können.
 
@@ -64,7 +64,8 @@ Predictive-Analytics-Industrial-Reliability/
 │   └── SQLLITE-INSTALLATION.MD                  # SQLite-Einrichtungsanleitung
 ├── notebooks/                                     # Jupyter Notebooks
 │   ├── flight_delay_prediction_analytics.ipynb  # Flugverspätungs-Analyse
-│   └── crane_maintenance_analytics.ipynb        # Kran PdM & RCA
+│   ├── crane_maintenance_analytics.ipynb        # Kran PdM & RCA (Basis)
+│   └── crane_pdm_enhanced_v2.ipynb              # Kran PdM & RCA (erweitert, LiDAT-Rahmen)
 ├── scripts/                                       # Eigenständige Skripte
 │   └── generate_crane_dataset.py               # Kran-Datensatz-Generator
 ├── .github/
@@ -115,6 +116,7 @@ Predictive-Analytics-Industrial-Reliability/
 | **Scikit-learn** | latest | Preprocessing und Metriken |
 | **XGBoost** | latest | ML-Klassifikator (`n_estimators=300`, `max_depth=6`, `learning_rate=0.05`) |
 | **SQLAlchemy** | latest | Datenbankanbindung (`flights2024.db`) |
+| **Optuna** | latest | Bayesianische Hyperparameter-Optimierung (TPE) |
 | **Matplotlib & Seaborn** | latest | Visualisierung |
 | **DVC** | latest | Daten-Versionskontrolle |
 
@@ -164,18 +166,19 @@ Da der vollständige Datensatz über 1 GB groß ist, werden die Vorhersagen in e
 Dieses Projekt enthält außerdem einen **synthetischen Kran-Antriebsdatensatz**, der mit `scripts/generate_crane_dataset.py` erzeugt wird. Er simuliert 1.000 stündliche Sensormesswerte eines Brücken- oder Turmdrehkran-Hubwerks mit eingebetteten Fehlermustern.
 
 > 📖 **Implementierung:** [`scripts/generate_crane_dataset.py`](scripts/generate_crane_dataset.py)  
-> 📖 **Analyse-Notebook:** [`notebooks/crane_maintenance_analytics.ipynb`](notebooks/crane_maintenance_analytics.ipynb)
+> 📖 **Analyse-Notebook (Basis):** [`notebooks/crane_maintenance_analytics.ipynb`](notebooks/crane_maintenance_analytics.ipynb)  
+> 📖 **Analyse-Notebook (Erweitert):** [`notebooks/crane_pdm_enhanced_v2.ipynb`](notebooks/crane_pdm_enhanced_v2.ipynb)
 
 ### 🔍 Kran-Datensatz Features
 
-| Feature | Beschreibung | Bedeutung |
-|---------|--------------|----------|
-| `Timestamp` | Stündlicher Zeitstempel | Zeitachse für Trendanalyse |
-| `Load_kg` | Aktuelle Last am Haken | Überlastung beschleunigt Verschleiß |
-| `Motor_Temp` | Motortemperatur (°C) | Systematische Überhitzung verkürzt die Isolationslebensdauer |
-| `Vibration` | Schwingung am Hubwerk (mm/s) | RCA: Hohe Werte deuten auf Lager-/Getriebedefekt hin |
-| `Brake_Wear` | Verbleibende Belagdicke (mm) | Direktes Verschleißmaß |
-| `Error_Code` | Fehlerbezeichnung (Zielvariable) | `Normal`, `E102_Motor_Overheat`, `E505_Bearing_Issue` |
+| Feature | Beschreibung | LiDAT-Konzept | Bedeutung |
+|---------|--------------|---------------|----------|
+| `Timestamp` | Stündlicher Zeitstempel | Betriebsstunden (Bh) | Zeitachse für Trendanalyse (PdM) |
+| `Load_kg` | Aktuelle Last am Haken | Sicherheitsberichte | Überlastung beschleunigt Verschleiß (RCA) |
+| `Motor_Temp` | Motortemperatur (°C) | Sensor-Benachrichtigungen | Systematische Überhitzung verkürzt die Isolationslebensdauer (RCA) |
+| `Vibration` | Schwingung am Hubwerk (mm/s) | Sensor-Benachrichtigungen | RCA: Hohe Werte deuten auf Lager-/Getriebedefekt hin |
+| `Brake_Wear` | Verbleibende Belagdicke (mm) | Nutzungstrends | Direktes Verschleißmaß (PdM) |
+| `Error_Code` | Fehlerbezeichnung (Zielvariable) | Teleservice-Fehlerprotokoll | `Normal`, `E102_Motor_Overheat`, `E505_Bearing_Issue` |
 
 ### 🚀 Datensatz neu erzeugen
 
@@ -199,6 +202,15 @@ Das Projekt beinhaltet zwei vollständige Machine Learning Pipelines:
 - Synthetische Datensatzerzeugung (siehe `scripts/generate_crane_dataset.py`)
 - Root Cause Analysis: XGBoost-Fehlerklassifikator (`Normal` / `E102_Motor_Overheat` / `E505_Bearing_Issue`)
 - Predictive Maintenance: Lineare Regression zur Vorhersage des Bremsbelag-Austauschs
+
+**🏗️ Kran PdM & RCA — Erweiterte Pipeline (LiDAT-Rahmen)**
+- Vollständig selbstenthaltendes Notebook mit 2.000 synthetischen Sensormesswerten
+- Framing nach dem **Liebherr LiDAT** Telematik-System (Safety Reports, Sensor Notifications, Teleservice, Operating Hours, Usage Trends)
+- Rolling-Feature-Engineering: 12-h- und 24-h-Gleitfenster-Statistiken (Mittelwert, Std, Min, Max) pro Sensor
+- Bayesianische Hyperparameter-Optimierung mit **Optuna** (Tree-structured Parzen Estimator, TPE)
+- Chronologischer 80/20-Split (kein Shuffling) für zeitreihenkonforme Auswertung
+- Umfangreiche Evaluierungsvisualisierungen: normalisierte Konfusionsmatrix, klassen-spezifische F1-Balkendiagramme, One-vs-Rest ROC-Kurven, Feature-Importance-Diagramme
+- Modell-Serialisierung via `joblib`: vollständiges Inferenz-Bundle (Scaler + Klassifikator + Label-Encoder)
 
 ---
 
@@ -233,25 +245,46 @@ Speicherung in SQLite-Tabelle `flight_preds_2024`
 
 ### 🏗️ Kran Predictive Maintenance & RCA Pipeline
 
-> 📖 **Implementierung:** [notebooks/crane_maintenance_analytics.ipynb](notebooks/crane_maintenance_analytics.ipynb)
+> 📖 **Implementierung (Basis):** [notebooks/crane_maintenance_analytics.ipynb](notebooks/crane_maintenance_analytics.ipynb)  
+> 📖 **Implementierung (Erweitert):** [notebooks/crane_pdm_enhanced_v2.ipynb](notebooks/crane_pdm_enhanced_v2.ipynb)
 
 #### 1. Synthetische Datensatzerzeugung
 
-- Erzeugung von 1.000 stündlichen Sensormesswerten
+- Erzeugung von 1.000 stündlichen Sensormesswerten (2.000 im erweiterten Notebook)
 - Einbettung von Fehlermustern (`Normal`, `E102_Motor_Overheat`, `E505_Bearing_Issue`)
 - Features: Last, Motortemperatur, Vibration, Bremsbelag-Verschleiß
 
-#### 2. Ursachenanalyse (RCA)
+#### 2. Ursachenanalyse — Story A (RCA)
+
+**LiDAT-Äquivalent:** Safety Reports + Sensor Notifications + Teleservice Ferndiagnose.
 
 **XGBoost-Fehlerklassifikator:**
 - Klassifizierung von Fehlercodes basierend auf Sensormustern
 - Ermittlung, ob Fehler auf Motorüberhitzung oder Lagerprobleme zurückzuführen sind
 
-#### 3. Vorhersagende Wartung (PdM)
+**Besonderheiten des erweiterten Notebooks:**
+
+| # | Modul | Beschreibung |
+|---|-------|-------------|
+| 1 | **Rolling-Feature-Engineering** | 12-h- und 24-h-Gleitfenster (Mittelwert, Std, Min, Max) erfassen zeitliche Degradationssignale vor einem Fehler |
+| 2 | **Hyperparameter-Tuning mit Optuna** | Bayesianische Suche (TPE) über `n_estimators`, `max_depth`, `learning_rate`, `subsample`, `colsample_bytree`, `min_child_weight` |
+| 3 | **Chronologischer Split** | 80/20-Aufteilung ohne Shuffling — respektiert die Zeitreihennatur der Daten |
+| 4 | **Evaluierungsvisualisierungen** | Normalisierte Konfusionsmatrix, klassen-spezifisches F1-Diagramm, One-vs-Rest ROC-Kurven, Top-20 Feature-Importances |
+
+#### 3. Vorhersagende Wartung — Story B (PdM)
+
+**LiDAT-Äquivalent:** Betriebsstunden (Bh) + Nutzungstrends + Verfügbarkeitsplanung.
 
 **Lineare Regression Vorhersage:**
-- Vorhersage des Zeitpunkts für Bremsbelag-Austausch
+- Vorhersage des Zeitpunkts für Bremsbelag-Austausch (Unterschreitung der kritischen Schwelle von 1,0 mm)
 - Vermeidung ungeplanter Ausfallzeiten
+
+#### 4. Modell-Serialisierung
+
+Gespeicherte Artefakte (erweiterte Pipeline):
+- `outputs/crane_rca_pipeline.joblib` — vollständiges RCA-Inferenz-Bundle (Scaler + Klassifikator + Label-Encoder)
+- `outputs/crane_pdm_regression.joblib` — PdM Lineare-Regression-Modell
+- `outputs/feature_cols.txt` — sortierte Feature-Liste für Column-Alignment
 
 ---
 
@@ -308,6 +341,11 @@ Speicherung in SQLite-Tabelle `flight_preds_2024`
 - [ ] Feature Engineering mit Wetter- und Flughafen-Auslastungsdaten
 - [ ] Deployment als Flask API oder Streamlit Dashboard
 - [ ] Integration zusätzlicher Datenquellen
+- [ ] **SHAP** — `shap.TreeExplainer` für per-Vorhersage-Erklärungen im RCA-Modell
+- [ ] **Drift-Erkennung** — Überwachung der Rolling-Feature-Verteilungen in der Produktion mit `evidently`
+- [ ] **MLflow** — Ersatz der `joblib`-Bundles durch `mlflow.xgboost.log_model` für Experiment-Versionierung
+- [ ] **Nicht-lineares PdM** — Ersatz der linearen Regression durch ein exponentielles oder polynomiales Verschleißmodell
+- [ ] **Lastgewichteter Verschleiß** — Gewichtung der Bremsbelag-Verschleißrate nach `Load_kg` pro Zyklus
 
 ---
 
